@@ -1,3 +1,8 @@
+//
+// Client that checks user arguments and connects to the server.
+// Sends requests to and displays output from the server.
+//
+
 import java.io.*;
 import java.net.*;
 
@@ -49,7 +54,7 @@ public class Client {
       socketOutput.close();
       socketInput.close();
       socket.close();
-      
+
     } catch (IOException e) {
       System.out.println("Error: I/O exception during execution");
       System.exit(1);
@@ -66,7 +71,7 @@ public class Client {
     try {
       Integer.parseInt(str);
     }
-    catch (NumberFormatException ex){
+    catch (NumberFormatException ex) {
       if (error == 1) {
         // If error check was for 'list' command.
         listError();

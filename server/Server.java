@@ -1,3 +1,8 @@
+//
+// Multi threaded server that initialises log file and list files.
+// Uses an Executor to handle multiple client connections concurrently.
+//
+
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.*;

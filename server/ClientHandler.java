@@ -1,3 +1,8 @@
+//
+// Client handler that extends Thread.
+// Handles client requests.
+//
+
 import java.net.*;
 import java.io.*;
 import java.nio.file.*;
