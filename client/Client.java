@@ -94,7 +94,7 @@ public class Client {
       printError();
     } 
     
-    // Checks user command.
+    // Checks user command and outputs error message if invalid.
     switch (args[0]) {
       // If user types in the command 'totals'.
       case "totals":
@@ -162,6 +162,11 @@ public class Client {
     System.out.println("Note: For joining with a full name, enclose with double quotes");
   }
 
+  /**
+   * Validates client command line arguments and connects to server.
+   * 
+   * @param args Client command line arguments
+   */
   public static void main(String[] args)  {
     // Checks client arguments
     checkArgs(args);

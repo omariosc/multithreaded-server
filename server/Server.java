@@ -85,6 +85,10 @@ public class Server {
     }
   }
 
+  /**
+   * Continuously runs multi-threaded server.
+   * Validates commang line arguments and connects server to socket.
+   */
   public static void main(String[] args) throws IOException  {
     
     // Deletes all list files in current directory
