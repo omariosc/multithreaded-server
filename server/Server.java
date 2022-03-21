@@ -12,18 +12,13 @@ public class Server {
   // Total number of lists.
   private int numberOfLists;
 
-  // Maximum number of members per list.
-  private int maxMembers;
-
   /**
    * Creates a server.
    * 
    * @param numberOfLists Array of lists
-   * @param maxMembers Maximum number of members per list
    */
-  public Server(int numberOfLists, int maxMembers) {
+  public Server(int numberOfLists) {
     this.numberOfLists = numberOfLists;
-    this.maxMembers = maxMembers;
   }
 
   /**
@@ -108,12 +103,8 @@ public class Server {
       System.exit(1);
     } else {
       try {
-        // Checks arguments are integers.
-        int numberOfLists = Integer.parseInt(args[0]);
-        int maxMembers = Integer.parseInt(args[1]);
-
-        // Checks arguments are not too small.
-        if (maxMembers < 1 || numberOfLists < 1) {
+        // Checks arguments are integers and are not too small.
+        if (Integer.parseInt(args[1]) < 1 || Integer.parseInt(args[0]) < 1) {
           System.out.println("Error: Arguments should be greater than 0.");
 
           // Exits program.
@@ -132,7 +123,7 @@ public class Server {
     int maxMembers = Integer.parseInt(args[1]);
     
     // If arguments are correct
-    server = new Server(numberOfLists, maxMembers);
+    server = new Server(numberOfLists);
 
     // Creates lists.
     server.createLists();
