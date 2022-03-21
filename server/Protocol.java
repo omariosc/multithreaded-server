@@ -13,6 +13,18 @@ public class Protocol {
 
   // Maximum number of members per list.
   private int maxMembers;
+
+  /**
+   * Creates a protocol.
+   * 
+   * @param numberOfLists Array of lists
+   * @param maxMembers Maximum number of members per list
+   */
+  public Protocol(int numberOfLists, int maxMembers) {
+    // Sets all private variables.
+    this.numberOfLists = numberOfLists;
+    this.maxMembers = maxMembers;
+  }
   
   /**
    * Removes last character from a string.
@@ -43,6 +55,9 @@ public class Protocol {
       }
     } catch (IOException e) {
       System.out.println("Error: Could not read from " + fileName);
+
+      // Return error message
+      return "Error: Could not read from " + fileName + ".";
     }
 
     // Returns final number of members in list.
@@ -66,6 +81,11 @@ public class Protocol {
       // Produces the filename for the list.
       String filename = "list-" + Integer.toString(i) + ".txt";
 
+      // Return error message if list cannot be read from
+      if (countLines(filename).contains("Error:")) {
+        return "Error: Could not read from " + filename + ".";
+      }
+      
       // Concatenates message for each list.
       output += "List " + Integer.toString(i+1) + " has " + countLines(filename) + " member(s).";
 
@@ -116,6 +136,9 @@ public class Protocol {
       }
     } catch (IOException e) {
       System.out.println("Error: Could not read from " + filename);
+
+      // Returns error response.
+      return "Failed. Could not read from list " + filename + ".";
     }
 
     // Removes final new line character
@@ -151,12 +174,14 @@ public class Protocol {
       try {
         // Writes name to list file.
         Files.write(Paths.get(filename), list_name.getBytes(), StandardOpenOption.APPEND);
+
+        // Returns successs response.
+        return "Success. \"" + name + "\" joined list " + Integer.toString(listNumber) + ".";
       } catch (IOException e) {
         System.out.println("Error: Could not write to list" + Integer.toString(listNumber) +  ".");
+        // Returns error response.
+        return "Failed. Error in writing to list.";
       }
-
-      // Returns successs response.
-      return "Success. \"" + name + "\" joined list " + Integer.toString(listNumber) + ".";
     }
   }
 
@@ -168,11 +193,7 @@ public class Protocol {
    * @param maxMembers Maximum number of members in a single list 
    * @return Output to the client
    */
-  public String processInput(String input, int numberOfLists, int maxMembers) {
-    // Set number of lists and maximum members.
-    this.numberOfLists = numberOfLists;
-    this.maxMembers = maxMembers;
-
+  public String processInput(String input) {
     // Split client input into request.
     String[] request = input.split(" ");
 

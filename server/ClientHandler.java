@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ClientHandler extends Thread {
 
   // Stores socket from server.
-  private Socket socket = null;
+  private Socket socket;
 
   // Total number of lists.
   private int numberOfLists;
@@ -65,10 +65,10 @@ public class ClientHandler extends Thread {
    */
   public void sendResponse(String request, PrintWriter out) {
     // Initialise a protocol object for this client.
-    Protocol protocol = new Protocol();
+    Protocol protocol = new Protocol(numberOfLists, maxMembers);
 
     // Processes client request.
-    String serverOutput = protocol.processInput(request, numberOfLists, maxMembers);
+    String serverOutput = protocol.processInput(request);
 
     // Prints server output to client.
     out.println(serverOutput);

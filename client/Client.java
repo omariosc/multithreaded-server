@@ -9,13 +9,26 @@ import java.net.*;
 public class Client {
 
   // Stores socket used to connect to server.
-  private Socket socket = null;
+  private Socket socket;
 
   // Stores the writer to socket output to server.
-  private PrintWriter socketOutput = null;
+  private PrintWriter socketOutput;
 
-  // Stores readed from socket for server output.
-  private BufferedReader socketInput = null;
+  // Stores read from socket for server output.
+  private BufferedReader socketInput;
+
+  /**
+   * Creates a client.
+   * 
+   * @param socket Server socket
+   * @param socketOutput Writer to socket output to server
+   * @param socketInput Read from socket for server output
+   */
+  public Client(Socket socket, PrintWriter socketOutput, BufferedReader socketInput) {
+    this.socket = socket;
+    this.socketOutput = socketOutput;
+    this.socketInput = socketInput;
+  }
 
   /**
    * Sends request to server.
@@ -77,39 +90,6 @@ public class Client {
     getResponse();
   }
 
-  /**
-   * Connects to Server.
-   * 
-   * @param args Command line arguments
-   */
-  public void serverConnect(String[] args) {
-    try {
-      // Try and create the socket. This assumes the server is running on the same machine, "localhost".
-      socket = new Socket("localhost", 9000);
-
-      // Chain a writing stream
-      socketOutput = new PrintWriter(socket.getOutputStream(), true);
-      
-      // Chain a reading stream
-      socketInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-      // Processes client request.
-      processRequest(args);
-    }
-    catch (UnknownHostException e) {
-      System.out.println("Error: Don't know about host.");
-      
-      // Exits program.
-      System.exit(1);
-    }
-    catch (IOException e) {
-      System.out.println("Error: Couldn't get I/O for the connection to host.");
-
-      // Exits program.
-      System.exit(1);
-    }
-  }
-  
   /**
    * Checks if input is integer.
    * 
@@ -229,9 +209,43 @@ public class Client {
   public static void main(String[] args)  {
     // Checks client arguments.
     checkArgs(args);
+    
+    Socket socket = null;
+
+    // Stores the writer to socket output to server.
+    PrintWriter socketOutput = null;
+
+    // Stores readed from socket for server output.
+    BufferedReader socketInput = null;
+
+    try {
+      // Try and create the socket using port 9246.
+      // This assumes the server is running on the same machine, "localhost".
+      socket = new Socket("localhost", 9246);
+
+      // Chain a writing stream
+      socketOutput = new PrintWriter(socket.getOutputStream(), true);
+      
+      // Chain a reading stream
+      socketInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    }
+    catch (UnknownHostException e) {
+      System.out.println("Error: Don't know about host.");
+      
+      // Exits program.
+      System.exit(1);
+    }
+    catch (IOException e) {
+      System.out.println("Error: Couldn't get I/O for the connection to host.");
+
+      // Exits program.
+      System.exit(1);
+    }
 
     // Creates new client and connects to server.
-    Client client = new Client();
-    client.serverConnect(args);
+    Client client = new Client(socket, socketOutput, socketInput);
+
+    // Processes client request.
+    client.processRequest(args);
   }
 }
